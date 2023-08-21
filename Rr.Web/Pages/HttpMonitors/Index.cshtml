@@ -1,0 +1,23 @@
+@page
+@model Rr.Web.Pages.HttpMonitors.IndexModel
+@{
+    ViewData["Title"] = "Http monitors";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table>
+    <thead>
+        <th>Id</th>
+        <th>Name</th>
+    </thead>
+    <tbody>
+        @foreach (var monitor in Model.HttpMonitors)
+        {
+            <tr>
+                <td>@monitor.Id</td>
+                <td>@monitor.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
