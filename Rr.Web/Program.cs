@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<IDb, Db>(options =>
-    options.UseSqlite("Data Source=mydatabase.db"));
+    options.UseSqlite("Data Source=ResponseRadar.db"));
 
 var app = builder.Build();
 
