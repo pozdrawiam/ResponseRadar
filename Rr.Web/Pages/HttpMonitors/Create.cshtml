@@ -1,0 +1,21 @@
+﻿@page
+@using Rr.Core.HttpMonitors
+@model Rr.Web.Pages.HttpMonitors.CreateModel
+
+@{
+    ViewData["Title"] = "Create Http monitor";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="mt-5">
+    <div class="form-group">
+        <label for="@nameof(HttpMonitor.Name)">Name:</label>
+        <input asp-for="HttpMonitor.Name" id="@nameof(HttpMonitor.Name)" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="@nameof(HttpMonitor.Url)">URL:</label>
+        <input asp-for="HttpMonitor.Url" id="@nameof(HttpMonitor.Url)" type="text" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
