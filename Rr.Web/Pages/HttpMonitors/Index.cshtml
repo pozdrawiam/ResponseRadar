@@ -10,6 +10,7 @@
     <thead>
         <th>Id</th>
         <th>Name</th>
+        <th>Url</th>
     </thead>
     <tbody>
         @foreach (var monitor in Model.HttpMonitors)
@@ -17,6 +18,7 @@
             <tr>
                 <td>@monitor.Id</td>
                 <td>@monitor.Name</td>
+                <td>@monitor.Url</td>
             </tr>
         }
     </tbody>
