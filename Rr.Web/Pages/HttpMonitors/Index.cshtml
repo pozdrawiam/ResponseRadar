@@ -1,25 +1,33 @@
 @page
 @model Rr.Web.Pages.HttpMonitors.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Http monitors";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<table class="table">
-    <thead>
+<form method="post">
+    <table class="table">
+        <thead>
         <th>Id</th>
         <th>Name</th>
         <th>Url</th>
-    </thead>
-    <tbody>
+        <th></th>
+        </thead>
+        <tbody>
         @foreach (var monitor in Model.HttpMonitors)
         {
             <tr>
                 <td>@monitor.Id</td>
                 <td>@monitor.Name</td>
                 <td>@monitor.Url</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@monitor.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <button type="submit" asp-page-handler="delete" asp-route-id="@monitor.Id" class="btn btn-danger btn-sm">Delete</button>
+                </td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</form>
