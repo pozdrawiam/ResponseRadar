@@ -13,19 +13,22 @@ public class CreateModel : PageModel
     {
         _db = db;
     }
-    
+
     [BindProperty]
     public HttpMonitor HttpMonitor { get; set; } = new();
-    
+
     public void OnGet()
     {
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (!ModelState.IsValid)
+            return Page();
+
         _db.HttpMonitors.Add(HttpMonitor);
         await _db.SaveChangesAsync();
-        
+
         return RedirectToPage("./Index");
     }
 }
