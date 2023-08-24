@@ -32,7 +32,7 @@ public class MonitorService
             }
             catch (HttpRequestException e)
             {
-                _logger.LogWarning("Monitor '{}' request failed", target.Name);
+                _logger.LogWarning(e, "Monitor '{}' request failed", target.Name);
                 await _notificationService.NotifyAsync("Monitor '{0}' request failed", target.Name);
                 continue;
             }
