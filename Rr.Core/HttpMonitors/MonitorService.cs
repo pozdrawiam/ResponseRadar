@@ -24,7 +24,23 @@ public class MonitorService
 
         foreach (var target in targets)
         {
-            var response = await client.GetAsync(target.Url);
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await client.GetAsync(target.Url);
+            }
+            catch (HttpRequestException e)
+            {
+                _logger.LogWarning("Monitor '{}' request failed", target.Name);
+                await _notificationService.NotifyAsync("Monitor '{0}' request failed", target.Name);
+                continue;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Monitor '{}' request failed", target.Name);
+                continue;
+            }
 
             if (response.StatusCode == HttpStatusCode.OK)
                 _logger.LogInformation("Monitor '{}' ok", target.Name);
