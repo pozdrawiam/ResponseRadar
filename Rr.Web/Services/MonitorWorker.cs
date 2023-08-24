@@ -18,7 +18,7 @@ public class MonitorWorker : BackgroundService
             using var scope = _scopeFactory.CreateScope();
             MonitorService monitorService = scope.ServiceProvider.GetRequiredService<MonitorService>();
             
-            await monitorService.CheckUrls();
+            await monitorService.CheckUrlsAsync();
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
