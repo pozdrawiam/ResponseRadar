@@ -12,6 +12,7 @@ public class AppConfig : IAppConfig
     }
 
     public double IntervalMinutes => _config.GetValue<double>(nameof(IntervalMinutes));
+    public double TimeoutSeconds => _config.GetValue<double>(nameof(TimeoutSeconds));
     public string NtfyTopic => _config[nameof(NtfyTopic)] ?? "";
     public string NtfyUrl => _config[nameof(NtfyUrl)] ?? "";
 }
