@@ -7,10 +7,20 @@ public interface INotificationService
 
 public class NotificationService : INotificationService
 {
+    private readonly string _ntfyFullUrl;
+    
+    public NotificationService(IAppConfig appConfig)
+    {
+        _ntfyFullUrl = appConfig.NtfyUrl + "/" + appConfig.NtfyTopic;
+    }
+    
     public async Task NotifyAsync(string message, params object[] args)
     {
-        using var client = new HttpClient();
+        if (_ntfyFullUrl.Length <= 1)
+            return;
         
-        await client.PostAsync("https://ntfy.sh/response-radar-notif", new StringContent(string.Format(message, args)));
+        using var client = new HttpClient(); //todo remove new
+        
+        await client.PostAsync(_ntfyFullUrl, new StringContent(string.Format(message, args)));
     }
 }

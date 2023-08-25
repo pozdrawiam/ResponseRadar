@@ -10,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<IDb, Db>(options =>
     options.UseSqlite("Data Source=ResponseRadar.db"));
 
+builder.Services.AddSingleton<IAppConfig, AppConfig>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 builder.Services.AddScoped<MonitorService>();
 builder.Services.AddHostedService<MonitorWorker>();

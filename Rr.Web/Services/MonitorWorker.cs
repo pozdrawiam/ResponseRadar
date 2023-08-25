@@ -1,13 +1,16 @@
 ﻿using Rr.Core.HttpMonitors;
+using Rr.Core.Services;
 
 namespace Rr.Web.Services;
 
 public class MonitorWorker : BackgroundService
 {
+    private readonly TimeSpan _interval;
     private readonly IServiceScopeFactory _scopeFactory;
 
-    public MonitorWorker(IServiceScopeFactory scopeFactory)
+    public MonitorWorker(IAppConfig config, IServiceScopeFactory scopeFactory)
     {
+        _interval = TimeSpan.FromMinutes(config.IntervalMinutes);
         _scopeFactory = scopeFactory;
     }
 
@@ -19,7 +22,7 @@ public class MonitorWorker : BackgroundService
             MonitorService monitorService = scope.ServiceProvider.GetRequiredService<MonitorService>();
             
             await monitorService.CheckUrlsAsync();
-            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+            await Task.Delay(_interval, stoppingToken);
         }
     }
 }
