@@ -53,7 +53,7 @@ public class MonitorService
             {
                 _logger.LogWarning("Monitor '{}' failed with status {}", monitor.Name, response.StatusCode.ToString());
                 await _notificationService.NotifyAsync(
-                    "Monitor '{0}' failed with status {1}", monitor.Name, response.StatusCode.ToString());
+                    "Monitor '{0}' failed with status {1} {2}", monitor.Name, (int)response.StatusCode, response.StatusCode.ToString());
             }
         }
     }
