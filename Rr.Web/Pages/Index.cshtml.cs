@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Rr.Core;
+using Rr.Core.Data;
 
 namespace Rr.Web.Pages;
 

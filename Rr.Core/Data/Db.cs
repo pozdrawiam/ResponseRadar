@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Rr.Core.HttpMonitors;
 
-namespace Rr.Core;
+namespace Rr.Core.Data;
 
 public interface IDb
 {

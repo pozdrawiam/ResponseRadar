@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Microsoft.Extensions.Logging;
-using Rr.Core.Services;
+using Rr.Core.Data;
 
-namespace Rr.Core.HttpMonitors;
+namespace Rr.Core.Services;
 
 //todo interface
 public class MonitorService

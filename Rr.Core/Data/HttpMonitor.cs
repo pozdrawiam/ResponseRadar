@@ -1,4 +1,4 @@
-namespace Rr.Core.HttpMonitors;
+namespace Rr.Core.Data;
 
 public class HttpMonitor
 {
