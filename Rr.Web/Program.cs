@@ -7,8 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 
-builder.Services.AddDbContext<IDb, Db>(options =>
-    options.UseSqlite("Data Source=ResponseRadar.db"));
+builder.Services.AddDbContext<IDb, Db>(o => o.UseSqlite(builder.Configuration["DbConnection"]));
 
 builder.Services.AddSingleton<IAppConfig, AppConfig>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
