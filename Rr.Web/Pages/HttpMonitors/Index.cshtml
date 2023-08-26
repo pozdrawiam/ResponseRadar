@@ -1,6 +1,6 @@
 @page
+@using Rr.Core.Data
 @model Rr.Web.Pages.HttpMonitors.IndexModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Http monitors";
 }
@@ -16,7 +16,7 @@
         <th></th>
         </thead>
         <tbody>
-        @foreach (var monitor in Model.HttpMonitors)
+        @foreach (HttpMonitor monitor in Model.HttpMonitors)
         {
             <tr>
                 <td>@monitor.Id</td>
