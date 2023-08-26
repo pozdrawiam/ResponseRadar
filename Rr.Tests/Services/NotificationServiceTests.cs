@@ -6,16 +6,21 @@ public class NotificationServiceTests
 {
     private readonly IAppConfig _appConfig = Substitute.For<IAppConfig>();
     private readonly IHttpService _httpService = Substitute.For<IHttpService>();
+
+    private readonly Lazy<NotificationService> _sut;
+    
+    public NotificationServiceTests()
+    {
+        _sut = new(() => new(_appConfig, _httpService));
+    }
     
     [Fact]
     public async Task NotifyAsync_WhenUrlIsEmpty_DoesNotSendNotification()
     {
         _appConfig.NtfyUrl.Returns("");
-        
-        var notificationService = new NotificationService(Substitute.For<IAppConfig>(), _httpService);
 
         // Act
-        await notificationService.NotifyAsync("Test message");
+        await _sut.Value.NotifyAsync("Test message");
         
         await _httpService.DidNotReceiveWithAnyArgs().PostAsync(default!, default!);
     }
@@ -26,11 +31,10 @@ public class NotificationServiceTests
         _appConfig.NtfyUrl.Returns("http://example.com");
         _appConfig.NtfyTopic.Returns("test-topic");
 
-        var notificationService = new NotificationService(_appConfig, _httpService);
-
         // Act
-        await notificationService.NotifyAsync("Test message");
+        await _sut.Value.NotifyAsync("Test message");
 
-        await _httpService.Received(1).PostAsync("http://example.com/test-topic", Arg.Any<HttpContent>());
+        await _httpService.Received(1).PostAsync("http://example.com/test-topic", 
+            Arg.Is<StringContent>(x => x.ReadAsStringAsync().Result == "Test message"));
     }
 }
