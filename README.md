@@ -6,7 +6,7 @@ Simple *ASP.NET Core RazorPages* web app.
 ## Features
 
 - url list to monitor (sqlite db)
-- push notifications via ntfy.sh
+- push notifications via [ntfy.sh](https://ntfy.sh)
 
 ## Branches
 
