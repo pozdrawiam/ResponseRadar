@@ -32,9 +32,7 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
-        {
             return Page();
-        }
 
         if (HttpMonitor != null)
         {
@@ -47,9 +45,7 @@ public class EditModel : PageModel
             catch (DbUpdateConcurrencyException)
             {
                 if (!CustomerExists(HttpMonitor.Id))
-                {
                     return NotFound();
-                }
 
                 throw;
             }
