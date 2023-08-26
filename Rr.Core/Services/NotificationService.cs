@@ -7,12 +7,12 @@ public interface INotificationService
 
 public class NotificationService : INotificationService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpService _httpService;
     private readonly string _ntfyFullUrl;
     
-    public NotificationService(IAppConfig appConfig, HttpClient httpClient)
+    public NotificationService(IAppConfig appConfig, IHttpService httpService)
     {
-        _httpClient = httpClient;
+        _httpService = httpService;
         _ntfyFullUrl = appConfig.NtfyUrl + "/" + appConfig.NtfyTopic;
     }
     
@@ -23,6 +23,6 @@ public class NotificationService : INotificationService
         
         var content = new StringContent(string.Format(message, args));
         
-        await _httpClient.PostAsync(_ntfyFullUrl, content);
+        await _httpService.PostAsync(_ntfyFullUrl, content);
     }
 }

@@ -1,52 +1,36 @@
-﻿using System.Net;
-using Rr.Core.Services;
+﻿using Rr.Core.Services;
 
 namespace Rr.Tests.Services;
 
 public class NotificationServiceTests
 {
+    private readonly IAppConfig _appConfig = Substitute.For<IAppConfig>();
+    private readonly IHttpService _httpService = Substitute.For<IHttpService>();
+    
     [Fact]
     public async Task NotifyAsync_WhenUrlIsEmpty_DoesNotSendNotification()
     {
-        var appConfig = Substitute.For<IAppConfig>();
-        appConfig.NtfyUrl.Returns("");
+        _appConfig.NtfyUrl.Returns("");
         
-        var httpClient = Substitute.ForPartsOf<HttpClient>();
-        
-        var notificationService = new NotificationService(appConfig, httpClient);
+        var notificationService = new NotificationService(Substitute.For<IAppConfig>(), _httpService);
 
         // Act
         await notificationService.NotifyAsync("Test message");
-
-        // Assert
-        await httpClient.DidNotReceive().SendAsync(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>());
+        
+        await _httpService.DidNotReceiveWithAnyArgs().PostAsync(default!, default!);
     }
     
     [Fact]
     public async Task NotifyAsync_WithValidUrl_SendsNotification()
     {
-        var appConfig = Substitute.For<IAppConfig>();
-        appConfig.NtfyUrl.Returns("http://example.com");
-        appConfig.NtfyTopic.Returns("test-topic");
+        _appConfig.NtfyUrl.Returns("http://example.com");
+        _appConfig.NtfyTopic.Returns("test-topic");
 
-        var httpClient = Substitute.For<HttpClient>();
-        httpClient.BaseAddress = new Uri("http://example.com");
-        httpClient.SendAsync(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>())
-            .ReturnsForAnyArgs(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
-
-        var notificationService = new NotificationService(appConfig, httpClient);
+        var notificationService = new NotificationService(_appConfig, _httpService);
 
         // Act
         await notificationService.NotifyAsync("Test message");
 
-        // Assert
-        await httpClient.Received(1).SendAsync(
-            Arg.Is<HttpRequestMessage>(request => 
-                request.Method == HttpMethod.Post &&
-                request.RequestUri!.ToString().Contains("http://example.com/test-topic") &&
-                request.Content!.ReadAsStringAsync().Result == new StringContent("Test message").ReadAsStringAsync().Result
-            ),
-            Arg.Any<CancellationToken>()
-        );
+        await _httpService.Received(1).PostAsync("http://example.com/test-topic", Arg.Any<HttpContent>());
     }
 }

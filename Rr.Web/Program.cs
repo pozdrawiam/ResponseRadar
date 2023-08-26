@@ -9,6 +9,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<IDb, Db>(o => o.UseSqlite(builder.Configuration["DbConnection"]));
 
+builder.Services.AddTransient<IHttpService, HttpService>();
 builder.Services.AddSingleton<IAppConfig, AppConfig>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 builder.Services.AddScoped<IMonitorService, MonitorService>();

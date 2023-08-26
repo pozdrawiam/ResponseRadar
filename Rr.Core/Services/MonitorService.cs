@@ -12,20 +12,20 @@ public interface IMonitorService
 public class MonitorService : IMonitorService
 {
     private readonly IDb _db;
-    private readonly HttpClient _httpClient;
+    private readonly IHttpService _httpService;
     private readonly ILogger<MonitorService> _logger;
     private readonly INotificationService _notificationService;
 
     public MonitorService(
         IAppConfig config,
         IDb db, 
-        HttpClient httpClient,
+        IHttpService httpService,
         ILogger<MonitorService> logger, 
         INotificationService notificationService)
     {
         _db = db;
-        _httpClient = httpClient;
-        _httpClient.Timeout = TimeSpan.FromSeconds(config.TimeoutSeconds);
+        _httpService = httpService;
+        _httpService.Timeout = TimeSpan.FromSeconds(config.TimeoutSeconds);
         _logger = logger;
         _notificationService = notificationService;
     }
@@ -40,7 +40,7 @@ public class MonitorService : IMonitorService
 
             try
             {
-                response = await _httpClient.GetAsync(monitor.Url);
+                response = await _httpService.GetAsync(monitor.Url);
             }
             catch (HttpRequestException e)
             {
