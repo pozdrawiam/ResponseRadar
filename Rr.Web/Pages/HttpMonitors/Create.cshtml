@@ -9,13 +9,21 @@
 <h1>@ViewData["Title"]</h1>
 
 <form method="post">
+    <div asp-validation-summary="ModelOnly" class="mb-3 text-danger"></div>
+    
     <div class="mb-3">
         <label for="@nameof(HttpMonitor.Name)" class="form-label">Name</label>
-        <input asp-for="HttpMonitor.Name" id="@nameof(HttpMonitor.Name)" type="text" class="form-control" />
+        <input asp-for="HttpMonitor.Name" id="@nameof(HttpMonitor.Name)" type="text" class="form-control"/>
+        <span asp-validation-for="HttpMonitor.Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="@nameof(HttpMonitor.Url)" class="form-label">URL</label>
-        <input asp-for="HttpMonitor.Url" id="@nameof(HttpMonitor.Url)" type="text" class="form-control" />
+        <input asp-for="HttpMonitor.Url" id="@nameof(HttpMonitor.Url)" type="text" class="form-control"/>
+        <span asp-validation-for="HttpMonitor.Url" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
