@@ -394,4 +394,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Project
+Rr.Web/appsettings.Development.json
 ResponseRadar.db*
