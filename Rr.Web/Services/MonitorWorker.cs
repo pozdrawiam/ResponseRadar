@@ -18,7 +18,7 @@ public class MonitorWorker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _scopeFactory.CreateScope();
-            MonitorService monitorService = scope.ServiceProvider.GetRequiredService<MonitorService>();
+            IMonitorService monitorService = scope.ServiceProvider.GetRequiredService<IMonitorService>();
             
             await monitorService.CheckUrlsAsync();
             await Task.Delay(_interval, stoppingToken);

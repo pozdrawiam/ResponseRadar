@@ -5,13 +5,14 @@ using Rr.Web.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<IDb, Db>(options =>
     options.UseSqlite("Data Source=ResponseRadar.db"));
 
 builder.Services.AddSingleton<IAppConfig, AppConfig>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
-builder.Services.AddScoped<MonitorService>();
+builder.Services.AddScoped<IMonitorService, MonitorService>();
 builder.Services.AddHostedService<MonitorWorker>();
 
 WebApplication app = builder.Build();

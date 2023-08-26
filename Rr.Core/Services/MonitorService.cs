@@ -4,36 +4,43 @@ using Rr.Core.Data;
 
 namespace Rr.Core.Services;
 
-//todo interface
-public class MonitorService
+public interface IMonitorService
 {
-    private readonly TimeSpan _timeout;
+    Task CheckUrlsAsync();
+}
+
+public class MonitorService : IMonitorService
+{
     private readonly IDb _db;
+    private readonly HttpClient _httpClient;
     private readonly ILogger<MonitorService> _logger;
     private readonly INotificationService _notificationService;
 
-    public MonitorService(IAppConfig config, IDb db, ILogger<MonitorService> logger, INotificationService notificationService)
+    public MonitorService(
+        IAppConfig config,
+        IDb db, 
+        HttpClient httpClient,
+        ILogger<MonitorService> logger, 
+        INotificationService notificationService)
     {
-        _timeout = TimeSpan.FromSeconds(config.TimeoutSeconds);
         _db = db;
+        _httpClient = httpClient;
+        _httpClient.Timeout = TimeSpan.FromSeconds(config.TimeoutSeconds);
         _logger = logger;
         _notificationService = notificationService;
     }
 
     public async Task CheckUrlsAsync()
     {
-        using var client = new HttpClient(); //todo remove new
-        client.Timeout = _timeout;
-
         HttpMonitor[] monitors = _db.HttpMonitors.ToArray();
 
-        foreach (HttpMonitor monitor in monitors)
+        foreach (HttpMonitor monitor in monitors.Where(x => !string.IsNullOrWhiteSpace(x.Url)))
         {
             HttpResponseMessage response;
 
             try
             {
-                response = await client.GetAsync(monitor.Url);
+                response = await _httpClient.GetAsync(monitor.Url);
             }
             catch (HttpRequestException e)
             {
