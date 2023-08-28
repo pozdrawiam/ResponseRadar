@@ -30,6 +30,15 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    Db db = scope.ServiceProvider.GetRequiredService<Db>();
+    bool dbCreated = await db.Database.EnsureCreatedAsync();
+    
+    if (dbCreated)
+        app.Logger.LogInformation("Database created");
+}
+
 app.Logger.LogInformation("Starting app at {}", DateTime.Now);
 
 app.Run();
