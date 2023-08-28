@@ -17,7 +17,7 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        HttpMonitors = await _db.HttpMonitors.ToArrayAsync();
+        HttpMonitors = await _db.HttpMonitors.OrderBy(x => x.Name).ToArrayAsync();
     }
     
     public async Task<IActionResult> OnPostDeleteAsync(int id)
