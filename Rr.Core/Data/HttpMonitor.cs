@@ -11,4 +11,8 @@ public class HttpMonitor
     
     [MinLength(5), MaxLength(1000), Url]
     public string Url { get; set; } = "";
+
+    public DateTime CheckedAt { get; set; }
+
+    public int Status { get; set; }
 }

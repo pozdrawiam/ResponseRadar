@@ -13,6 +13,8 @@
         <th>Id</th>
         <th>Name</th>
         <th>Url</th>
+        <th>Checked at</th>
+        <th>Status</th>
         <th></th>
         </thead>
         <tbody>
@@ -22,6 +24,8 @@
                 <td>@monitor.Id</td>
                 <td>@monitor.Name</td>
                 <td>@monitor.Url</td>
+                <td>@(monitor.CheckedAt != default ? monitor.CheckedAt.ToLocalTime() : "")</td>
+                <td>@monitor.Status</td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@monitor.Id" class="btn btn-primary btn-sm">Edit</a>
                     <button type="submit" asp-page-handler="delete" asp-route-id="@monitor.Id" class="btn btn-danger btn-sm">Delete</button>

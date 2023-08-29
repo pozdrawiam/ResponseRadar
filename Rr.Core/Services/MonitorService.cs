@@ -36,7 +36,7 @@ public class MonitorService : IMonitorService
 
         foreach (HttpMonitor monitor in monitors.Where(x => !string.IsNullOrWhiteSpace(x.Url)))
         {
-            HttpResponseMessage response;
+            HttpResponseMessage? response = null;
 
             try
             {
@@ -52,6 +52,14 @@ public class MonitorService : IMonitorService
             {
                 _logger.LogError(e, "Monitor '{}' request failed", monitor.Name);
                 continue;
+            }
+            finally
+            {
+                monitor.CheckedAt = DateTime.UtcNow;
+                monitor.Status = (int?)(response?.StatusCode) ?? 0;
+                
+                _db.AttachModified(monitor);
+                await _db.SaveChangesAsync();
             }
 
             if (response.StatusCode == HttpStatusCode.OK)
