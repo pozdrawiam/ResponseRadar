@@ -17,7 +17,7 @@ Simple *ASP.NET Core RazorPages* web app.
 
 - .Net 7
 - EntityFrameworkCore.Sqlite
-- frontend: Bootstrap 5
+- frontend: Bootstrap 5.3
 - testing: xUnit, NSubstitute
 
 ## Configuration
