@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using Microsoft.Extensions.Logging;
 using Rr.Core.Data;
 
@@ -37,10 +38,12 @@ public class MonitorService : IMonitorService
         foreach (HttpMonitor monitor in monitors.Where(x => !string.IsNullOrWhiteSpace(x.Url)))
         {
             HttpResponseMessage? response = null;
-
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            
             try
             {
                 response = await _httpService.GetAsync(monitor.Url);
+                stopwatch.Stop();
             }
             catch (HttpRequestException e)
             {
@@ -57,6 +60,7 @@ public class MonitorService : IMonitorService
             {
                 monitor.CheckedAt = DateTime.UtcNow;
                 monitor.Status = (int?)(response?.StatusCode) ?? 0;
+                monitor.ResponseTimeMs = stopwatch.ElapsedMilliseconds <= int.MaxValue ? (int)stopwatch.ElapsedMilliseconds : 0;
                 
                 _db.AttachModified(monitor);
                 await _db.SaveChangesAsync();

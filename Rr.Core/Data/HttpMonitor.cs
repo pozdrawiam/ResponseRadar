@@ -15,6 +15,8 @@ public class HttpMonitor : IValidatableObject
     public DateTime CheckedAt { get; set; }
 
     public int Status { get; set; }
+
+    public int ResponseTimeMs { get; set; }
     
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
