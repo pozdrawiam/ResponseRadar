@@ -23,7 +23,9 @@
             <tr class="@(monitor.CheckedAt != default && monitor.Status is 0 or >= 400 ? "table-danger" : "")">
                 <td>@monitor.Id</td>
                 <td>@monitor.Name</td>
-                <td>@monitor.Url</td>
+                <td>
+                    <a href="@monitor.Url" target="_blank">@monitor.Url</a>
+                </td>
                 <td>@(monitor.CheckedAt != default ? monitor.CheckedAt.ToLocalTime() : "")</td>
                 <td>@monitor.Status</td>
                 <td>
