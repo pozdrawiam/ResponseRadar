@@ -45,15 +45,16 @@ public class MonitorService : IMonitorService
                 response = await _httpService.GetAsync(monitor.Url);
                 stopwatch.Stop();
             }
-            catch (HttpRequestException e)
-            {
-                _logger.LogWarning(e, "Monitor '{}' request failed", monitor.Name);
-                await _notificationService.NotifyAsync("Monitor '{0}' request failed", monitor.Name);
-                continue;
-            }
             catch (Exception e)
             {
-                _logger.LogError(e, "Monitor '{}' request failed", monitor.Name);
+                if (e is HttpRequestException hre)
+                    _logger.LogWarning(e, "Monitor '{}' request failed", monitor.Name);
+                else
+                    _logger.LogError(e, "Monitor '{}' request failed", monitor.Name);
+                
+                await _notificationService.NotifyAsync(
+                    "Monitor '{0}' failed with {1}", monitor.Name, e.GetType().Name);
+                
                 continue;
             }
             finally
@@ -65,7 +66,7 @@ public class MonitorService : IMonitorService
                 _db.AttachModified(monitor);
                 await _db.SaveChangesAsync();
             }
-
+            
             if (response.StatusCode == HttpStatusCode.OK)
                 _logger.LogInformation("Monitor '{}' ok", monitor.Name);
             else
