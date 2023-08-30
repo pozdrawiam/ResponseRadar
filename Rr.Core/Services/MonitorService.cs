@@ -53,7 +53,7 @@ public class MonitorService : IMonitorService
         }
         catch (Exception e)
         {
-            if (e is HttpRequestException hre)
+            if (e is HttpRequestException)
                 _logger.LogWarning(e, "Monitor '{}' request failed", monitor.Name);
             else
                 _logger.LogError(e, "Monitor '{}' request failed", monitor.Name);
