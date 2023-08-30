@@ -20,7 +20,7 @@
         <tbody>
         @foreach (HttpMonitor monitor in Model.HttpMonitors)
         {
-            <tr>
+            <tr class="@(monitor.CheckedAt != default && monitor.Status is 0 or >= 400 ? "table-danger" : "")">
                 <td>@monitor.Id</td>
                 <td>@monitor.Name</td>
                 <td>@monitor.Url</td>
