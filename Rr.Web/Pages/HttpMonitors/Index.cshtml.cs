@@ -26,6 +26,13 @@ public class IndexModel : PageModel
             .ToArrayAsync();
     }
 
+    public async Task<IActionResult> OnPostCheckAllUrlsAsync()
+    {
+        await _monitorService.CheckUrlsAsync();
+        
+        return RedirectToPage();
+    }
+    
     public async Task<IActionResult> OnPostCheckUrlAsync(int id)
     {
         await _monitorService.CheckUrlAsync(id);
