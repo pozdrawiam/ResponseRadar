@@ -7,6 +7,7 @@ namespace Rr.Core.Services;
 
 public interface IMonitorService
 {
+    Task CheckUrlAsync(int id);
     Task CheckUrlsAsync();
 }
 
@@ -29,6 +30,14 @@ public class MonitorService : IMonitorService
         _httpService.Timeout = TimeSpan.FromSeconds(config.TimeoutSeconds);
         _logger = logger;
         _notificationService = notificationService;
+    }
+
+    public async Task CheckUrlAsync(int id)
+    {
+        HttpMonitor? monitor = await _db.HttpMonitors.FindAsync(id);
+        
+        if (monitor != null)
+            await CheckUrlAsync(monitor);
     }
 
     public async Task CheckUrlsAsync()
