@@ -3,9 +3,17 @@
 @model Rr.Web.Pages.HttpMonitors.IndexModel
 @{
     ViewData["Title"] = "Http monitors";
+
+    string GetRowStatus(HttpMonitor monitor)
+    {
+        if (monitor.CheckedAt != default && monitor.Status is 0 or >= 400) 
+            return "table-danger";
+        if (monitor.TimeoutMs > 0 && monitor.ResponseTimeMs > monitor.TimeoutMs)
+            return "table-warning";
+
+        return "";
+    }
 }
-
-
 
 <form method="post">
     <div class="row">
@@ -32,7 +40,7 @@
         <tbody>
         @foreach (HttpMonitor monitor in Model.HttpMonitors)
         {
-            <tr class="@(monitor.CheckedAt != default && monitor.Status is 0 or >= 400 ? "table-danger" : "")">
+            <tr class="@GetRowStatus(monitor)">
                 <td>@monitor.Id</td>
                 <td>@monitor.Name</td>
                 <td>
