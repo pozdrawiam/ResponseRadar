@@ -5,10 +5,19 @@
     ViewData["Title"] = "Http monitors";
 }
 
-<h1>@ViewData["Title"]</h1>
+
 
 <form method="post">
-    <button type="submit" asp-page-handler="checkAllUrls" class="btn btn-secondary btn-sm">Check all urls</button>
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="col d-flex justify-content-end align-items-center">
+            <div>
+                <button type="submit" asp-page-handler="checkAllUrls" class="btn btn-secondary btn-sm">Check all urls</button>
+            </div>
+        </div>
+    </div>
 
     <table class="table">
         <thead>
