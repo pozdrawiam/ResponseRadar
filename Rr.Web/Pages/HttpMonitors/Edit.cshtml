@@ -10,7 +10,7 @@
 
 <form method="post">
     <input type="hidden" asp-for="HttpMonitor!.Id"/>
-    
+
     <div asp-validation-summary="ModelOnly" class="mb-3 text-danger"></div>
 
     <div class="mb-3">
@@ -22,6 +22,11 @@
         <label for="@nameof(HttpMonitor.Url)" class="form-label">URL</label>
         <input asp-for="HttpMonitor!.Url" id="@nameof(HttpMonitor.Url)" type="text" class="form-control"/>
         <span asp-validation-for="HttpMonitor!.Url" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="@nameof(HttpMonitor.TimeoutMs)" class="form-label">Timeout (ms)</label>
+        <input asp-for="HttpMonitor!.TimeoutMs" id="@nameof(HttpMonitor.TimeoutMs)" type="number" class="form-control"/>
+        <span asp-validation-for="HttpMonitor!.TimeoutMs" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

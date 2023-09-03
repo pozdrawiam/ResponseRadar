@@ -37,6 +37,9 @@ namespace Rr.Core.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("TimeoutMs")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(1000)

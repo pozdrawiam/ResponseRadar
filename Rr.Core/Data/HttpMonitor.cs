@@ -11,6 +11,9 @@ public class HttpMonitor : IValidatableObject
     
     [MinLength(5), MaxLength(1000)]
     public string Url { get; set; } = "";
+    
+    [Range(1, 3_600_000)]
+    public int? TimeoutMs { get; set; }
 
     public DateTime CheckedAt { get; set; }
 
