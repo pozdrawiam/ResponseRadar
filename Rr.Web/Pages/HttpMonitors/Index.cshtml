@@ -9,7 +9,7 @@
 
 <form method="post">
     <button type="submit" asp-page-handler="checkAllUrls" class="btn btn-secondary btn-sm">Check all urls</button>
-    
+
     <table class="table">
         <thead>
         <th>Id</th>
@@ -32,7 +32,7 @@
                 <td>@(monitor.CheckedAt != default ? monitor.CheckedAt.ToLocalTime() : "")</td>
                 <td>@(monitor.CheckedAt != default ? monitor.Status : "")</td>
                 <td>@(monitor.CheckedAt != default ? monitor.ResponseTimeMs : "")</td>
-                <td>
+                <td style="white-space:nowrap">
                     <button type="submit" asp-page-handler="checkUrl" asp-route-id="@monitor.Id" class="btn btn-secondary btn-sm">Check url</button>
                     <a asp-page="./Edit" asp-route-id="@monitor.Id" class="btn btn-primary btn-sm">Edit</a>
                     <button type="submit" asp-page-handler="delete" asp-route-id="@monitor.Id" class="btn btn-danger btn-sm">Delete</button>
