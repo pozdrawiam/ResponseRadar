@@ -76,9 +76,14 @@ public class MonitorService : IMonitorService
         {
             await UpdateMonitorAsync(monitor, response?.StatusCode, stopwatch.ElapsedMilliseconds);
         }
-            
+
         if (response.StatusCode == HttpStatusCode.OK)
+        {
+            if (monitor.TimeoutMs > 0 && stopwatch.ElapsedMilliseconds > monitor.TimeoutMs)
+                await _notificationService.NotifyAsync("Monitor '{0}' ok, but long response", monitor.Name);
+            
             _logger.LogInformation("Monitor '{}' ok", monitor.Name);
+        }
         else
         {
             _logger.LogWarning("Monitor '{}' failed with status {}", monitor.Name, response.StatusCode.ToString());
@@ -91,7 +96,9 @@ public class MonitorService : IMonitorService
     {
         monitor.CheckedAt = DateTime.UtcNow;
         monitor.Status = (int?)status ?? 0;
-        monitor.ResponseTimeMs = elapsedMs <= int.MaxValue ? (int)elapsedMs : 0;
+
+        if (elapsedMs <= int.MaxValue)
+            monitor.ResponseTimeMs = (int)elapsedMs;
                 
         _db.AttachModified(monitor);
         await _db.SaveChangesAsync();
