@@ -1,3 +1,4 @@
+using System.Globalization;
 using Rr.Core.Data;
 using Rr.Core.Services;
 using Rr.Web.Services;
@@ -13,6 +14,16 @@ builder.Services.AddSingleton<IAppConfig, AppConfig>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 builder.Services.AddScoped<IMonitorService, MonitorService>();
 builder.Services.AddHostedService<MonitorWorker>();
+
+var cultureSetting = builder.Configuration["Culture"];
+
+if (cultureSetting != null)
+{
+    CultureInfo culture = cultureSetting == "invariant" ? CultureInfo.InvariantCulture : new(cultureSetting);
+
+    CultureInfo.DefaultThreadCurrentCulture = culture;
+    CultureInfo.DefaultThreadCurrentUICulture = culture;
+}
 
 WebApplication app = builder.Build();
 

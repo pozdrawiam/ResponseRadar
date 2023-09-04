@@ -26,6 +26,7 @@ Setup unique notifications topic in `appsettings.json`:
 
 ```json
 {
+  "Culture": "en",
   "DbConnection": "Data Source=ResponseRadar.db",
   "NtfyUrl": "https://ntfy.sh",
   "NtfyTopic": "your-unique-topic-name",
