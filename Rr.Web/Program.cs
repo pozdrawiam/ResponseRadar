@@ -2,10 +2,9 @@ using Rr.Core.Data;
 using Rr.Core.Services;
 using Rr.Web.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
-builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<IDb, Db>(o => o.UseSqlite(builder.Configuration["DbConnection"]));
 
