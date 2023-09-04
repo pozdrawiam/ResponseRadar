@@ -80,6 +80,7 @@ public class MonitorServiceTests
         
         _httpService.GetAsync(monitor.Url).Returns(new HttpResponseMessage(HttpStatusCode.InternalServerError));
 
+        // Act
         await _sut.CheckUrlsAsync();
 
         _logger.ReceivedWithAnyArgs(1).LogWarning(default);
