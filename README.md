@@ -45,3 +45,4 @@ dotnet run --project Rr.Web
 ```
 dotnet publish Rr.Web -c Release
 ```
+or use build script from _scripts_ directory.
