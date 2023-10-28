@@ -63,9 +63,9 @@ public class MonitorService : IMonitorService
         catch (Exception e)
         {
             if (e is HttpRequestException)
-                _logger.LogWarning(e, "Monitor '{}' request failed", monitor.Name);
+                _logger.LogWarning(e, "Monitor '{Name}' request failed", monitor.Name);
             else
-                _logger.LogError(e, "Monitor '{}' request failed", monitor.Name);
+                _logger.LogError(e, "Monitor '{Name}' request failed", monitor.Name);
                 
             await _notificationService.NotifyAsync(
                 "Monitor '{0}' failed with {1}", monitor.Name, e.GetType().Name);
@@ -82,11 +82,11 @@ public class MonitorService : IMonitorService
             if (monitor.TimeoutMs > 0 && stopwatch.ElapsedMilliseconds > monitor.TimeoutMs)
                 await _notificationService.NotifyAsync("Monitor '{0}' ok, but long response", monitor.Name);
             
-            _logger.LogInformation("Monitor '{}' ok", monitor.Name);
+            _logger.LogInformation("Monitor '{Name}' ok", monitor.Name);
         }
         else
         {
-            _logger.LogWarning("Monitor '{}' failed with status {}", monitor.Name, response.StatusCode.ToString());
+            _logger.LogWarning("Monitor '{Name}' failed with status {Status}", monitor.Name, response.StatusCode.ToString());
             await _notificationService.NotifyAsync(
                 "Monitor '{0}' failed with status {1} {2}", monitor.Name, (int)response.StatusCode, response.StatusCode.ToString());
         }
