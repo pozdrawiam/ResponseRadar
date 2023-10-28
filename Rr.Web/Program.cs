@@ -1,9 +1,16 @@
-using System.Globalization;
 using Rr.Core.Data;
 using Rr.Core.Services;
 using Rr.Web.Services;
+using Serilog;
+using System.Globalization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Services.AddLogging(x => x.ClearProviders().AddSerilog());
 
 builder.Services.AddRazorPages();
 
@@ -46,6 +53,8 @@ using (IServiceScope scope = app.Services.CreateScope())
     await db.Database.MigrateAsync();
 }
 
-app.Logger.LogInformation("Starting app at {}", DateTime.Now);
+app.Logger.LogInformation("Starting app at {Date}", DateTime.Now);
 
 app.Run();
+
+Log.CloseAndFlush();
