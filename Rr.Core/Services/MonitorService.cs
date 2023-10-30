@@ -5,12 +5,6 @@ using Rr.Core.Data;
 
 namespace Rr.Core.Services;
 
-public interface IMonitorService
-{
-    Task CheckUrlAsync(int id);
-    Task CheckUrlsAsync();
-}
-
 public class MonitorService : IMonitorService
 {
     private readonly IDb _db;

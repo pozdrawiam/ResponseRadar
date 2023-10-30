@@ -1,10 +1,5 @@
 ﻿namespace Rr.Core.Services;
 
-public interface INotificationService
-{
-    Task NotifyAsync(string message, params object[] args);
-}
-
 public class NotificationService : INotificationService
 {
     private readonly IHttpService _httpService;
