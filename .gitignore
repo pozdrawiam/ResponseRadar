@@ -398,4 +398,4 @@ FodyWeavers.xsd
 
 # Project
 Rr.Web/appsettings.Development.json
-ResponseRadar.db*
+Rr.Web/data/*.db*
