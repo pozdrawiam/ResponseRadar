@@ -35,6 +35,8 @@ public class NotificationServiceTests
         await _sut.Value.NotifyAsync("Test message");
 
         await _httpService.Received(1).PostAsync("http://example.com/test-topic", 
+#pragma warning disable xUnit1031
             Arg.Is<StringContent>(x => x.ReadAsStringAsync().Result == "Test message"));
+#pragma warning restore xUnit1031
     }
 }
