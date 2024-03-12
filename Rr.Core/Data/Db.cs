@@ -14,9 +14,14 @@ public class Db(DbContextOptions<Db> options)
     : DbContext(options), IDb
 {
     public DbSet<HttpMonitor> HttpMonitors => Set<HttpMonitor>();
-    
+
     public void AttachModified(object entity)
     {
         Attach(entity).State = EntityState.Modified;
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<HttpMonitor>().Property(p => p.IsEnabled).HasDefaultValue(true);
     }
 }

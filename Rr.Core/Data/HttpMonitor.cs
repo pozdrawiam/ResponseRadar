@@ -8,6 +8,8 @@ public class HttpMonitor : IValidatableObject
     
     [MinLength(4), MaxLength(50)]
     public string Name { get; set; } = "";
+
+    public bool IsEnabled { get; set; } = true;
     
     [MinLength(5), MaxLength(1000)]
     public string Url { get; set; } = "";
