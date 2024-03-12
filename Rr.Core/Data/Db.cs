@@ -10,13 +10,9 @@ public interface IDb
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
 
-public class Db : DbContext, IDb
+public class Db(DbContextOptions<Db> options) 
+    : DbContext(options), IDb
 {
-    public Db(DbContextOptions<Db> options)
-        : base(options)
-    {
-    }
-
     public DbSet<HttpMonitor> HttpMonitors => Set<HttpMonitor>();
     
     public void AttachModified(object entity)
