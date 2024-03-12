@@ -4,15 +4,9 @@ using Rr.Core.Data;
 
 namespace Rr.Web.Pages.HttpMonitors;
 
-public class EditModel : PageModel
+public class EditModel(IDb db) 
+    : PageModel
 {
-    private readonly IDb _db;
-
-    public EditModel(IDb db)
-    {
-        _db = db;
-    }
-
     [BindProperty]
     public HttpMonitor? HttpMonitor { get; set; } = new();
 
@@ -21,7 +15,7 @@ public class EditModel : PageModel
         if (id == null)
             return NotFound();
 
-        HttpMonitor = await _db.HttpMonitors.FirstOrDefaultAsync(m => m.Id == id);
+        HttpMonitor = await db.HttpMonitors.FirstOrDefaultAsync(m => m.Id == id);
 
         if (HttpMonitor == null)
             return NotFound();
@@ -36,15 +30,15 @@ public class EditModel : PageModel
 
         if (HttpMonitor != null)
         {
-            _db.AttachModified(HttpMonitor);
+            db.AttachModified(HttpMonitor);
 
             try
             {
-                await _db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CustomerExists(HttpMonitor.Id))
+                if (!db.HttpMonitors.Any(e => e.Id == HttpMonitor.Id))
                     return NotFound();
 
                 throw;
@@ -52,10 +46,5 @@ public class EditModel : PageModel
         }
 
         return RedirectToPage("./Index");
-    }
-
-    private bool CustomerExists(int id)
-    {
-        return _db.HttpMonitors.Any(e => e.Id == id);
     }
 }
