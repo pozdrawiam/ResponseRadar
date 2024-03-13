@@ -38,7 +38,7 @@ public class MonitorService : IMonitorService
     {
         HttpMonitor[] monitors = _db.HttpMonitors.ToArray();
 
-        foreach (HttpMonitor monitor in monitors.Where(x => !string.IsNullOrWhiteSpace(x.Url)))
+        foreach (HttpMonitor monitor in monitors.Where(x => x.IsEnabled))
         {
             await CheckUrlAsync(monitor);
         }
