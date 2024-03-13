@@ -17,6 +17,12 @@
         <span asp-validation-for="HttpMonitor.Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
+        <div class="form-check form-switch">
+            <input asp-for="HttpMonitor.IsEnabled" id="@nameof(HttpMonitor.IsEnabled)" class="form-check-input" type="checkbox" role="switch">
+            <label class="form-check-label" for="@nameof(HttpMonitor.IsEnabled)">Is enabled</label>
+        </div>
+    </div>
+    <div class="mb-3">
         <label for="@nameof(HttpMonitor.Url)" class="form-label">URL</label>
         <input asp-for="HttpMonitor.Url" id="@nameof(HttpMonitor.Url)" type="text" class="form-control"/>
         <span asp-validation-for="HttpMonitor.Url" class="text-danger"></span>
