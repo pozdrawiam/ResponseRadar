@@ -42,7 +42,16 @@
         {
             <tr class="@GetRowStatus(monitor)">
                 <td>@monitor.Id</td>
-                <td>@monitor.Name</td>
+                <td>
+                    @if (monitor.IsEnabled)
+                    {
+                        @monitor.Name
+                    }
+                    else
+                    {
+                        <del>@monitor.Name</del>
+                    }
+                </td>
                 <td>
                     <a href="@monitor.Url" target="_blank">@monitor.Url</a>
                 </td>
