@@ -75,8 +75,13 @@ public class MonitorService : IMonitorService
         {
             if (monitor.TimeoutMs > 0 && stopwatch.ElapsedMilliseconds > monitor.TimeoutMs)
                 await _notificationService.NotifyAsync("Monitor '{0}' ok, but long response", monitor.Name);
-            
-            _logger.LogInformation("Monitor '{Name}' ok", monitor.Name);
+
+            string contentText = await response.Content.ReadAsStringAsync();
+
+            if (!string.IsNullOrEmpty(monitor.ContentNotContains) && !contentText.Contains(monitor.ContentNotContains))
+                await _notificationService.NotifyAsync("Monitor '{0}' ok, but content not contains", monitor.Name);
+            else
+                _logger.LogInformation("Monitor '{Name}' ok", monitor.Name);
         }
         else
         {

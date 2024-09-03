@@ -22,6 +22,9 @@ public class HttpMonitor : IValidatableObject
     public int Status { get; set; }
 
     public int ResponseTimeMs { get; set; }
+
+    [MaxLength(5000)]
+    public string? ContentNotContains { get; set; } = "";
     
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
