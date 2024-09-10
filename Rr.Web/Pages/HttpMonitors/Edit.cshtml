@@ -35,6 +35,11 @@
         <span asp-validation-for="HttpMonitor!.TimeoutMs" class="text-danger"></span>
     </div>
     <div class="mb-3">
+        <label for="@nameof(HttpMonitor.ContentContains)" class="form-label">Content contains</label>
+        <input asp-for="HttpMonitor!.ContentContains" id="@nameof(HttpMonitor.ContentContains)" type="text" class="form-control"/>
+        <span asp-validation-for="HttpMonitor!.ContentContains" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
         <label for="@nameof(HttpMonitor.ContentNotContains)" class="form-label">Content not contains</label>
         <input asp-for="HttpMonitor!.ContentNotContains" id="@nameof(HttpMonitor.ContentNotContains)" type="text" class="form-control"/>
         <span asp-validation-for="HttpMonitor!.ContentNotContains" class="text-danger"></span>

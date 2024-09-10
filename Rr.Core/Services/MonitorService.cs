@@ -78,8 +78,22 @@ public class MonitorService : IMonitorService
 
             string contentText = await response.Content.ReadAsStringAsync();
 
-            if (!string.IsNullOrEmpty(monitor.ContentNotContains) && !contentText.Contains(monitor.ContentNotContains))
-                await _notificationService.NotifyAsync("Monitor '{0}' ok, but content not contains", monitor.Name);
+            var isContentContains = new Lazy<bool>(() =>
+                !string.IsNullOrEmpty(monitor.ContentContains) && contentText.Contains(monitor.ContentContains)
+            );
+            
+            var isContentNotContains = new Lazy<bool>(() =>
+                !string.IsNullOrEmpty(monitor.ContentNotContains) && !contentText.Contains(monitor.ContentNotContains)
+                );
+
+            if (isContentContains.Value || isContentNotContains.Value)
+            {
+                if (isContentContains.Value)
+                    await _notificationService.NotifyAsync("Monitor '{0}' ok, but content contains", monitor.Name);
+                
+                if (isContentNotContains.Value)
+                    await _notificationService.NotifyAsync("Monitor '{0}' ok, but content not contains", monitor.Name);
+            }
             else
                 _logger.LogInformation("Monitor '{Name}' ok", monitor.Name);
         }
