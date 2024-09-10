@@ -4,15 +4,8 @@ using Rr.Core.Data;
 
 namespace Rr.Web.Pages.HttpMonitors;
 
-public class CreateModel : PageModel
+public class CreateModel(IDb db) : PageModel
 {
-    private readonly IDb _db;
-
-    public CreateModel(IDb db)
-    {
-        _db = db;
-    }
-
     [BindProperty]
     public HttpMonitor HttpMonitor { get; set; } = new();
 
@@ -25,8 +18,8 @@ public class CreateModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        _db.HttpMonitors.Add(HttpMonitor);
-        await _db.SaveChangesAsync();
+        db.HttpMonitors.Add(HttpMonitor);
+        await db.SaveChangesAsync();
 
         return RedirectToPage("./Index");
     }

@@ -5,22 +5,13 @@ using Rr.Core.Services;
 
 namespace Rr.Web.Pages.HttpMonitors;
 
-public class IndexModel : PageModel
+public class IndexModel(IDb db, IMonitorService monitorService) : PageModel
 {
-    private readonly IDb _db;
-    private readonly IMonitorService _monitorService;
-
-    public IndexModel(IDb db, IMonitorService monitorService)
-    {
-        _db = db;
-        _monitorService = monitorService;
-    }
-
     public HttpMonitor[] HttpMonitors { get; set; } = Array.Empty<HttpMonitor>();
 
     public async Task OnGetAsync()
     {
-        HttpMonitors = await _db.HttpMonitors
+        HttpMonitors = await db.HttpMonitors
             .OrderByDescending(x => x.CheckedAt != default && (x.Status == 0 || x.Status >= 300))
             .ThenBy(x => x.Name)
             .ToArrayAsync();
@@ -28,26 +19,26 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnPostCheckAllUrlsAsync()
     {
-        await _monitorService.CheckUrlsAsync();
+        await monitorService.CheckUrlsAsync();
         
         return RedirectToPage();
     }
     
     public async Task<IActionResult> OnPostCheckUrlAsync(int id)
     {
-        await _monitorService.CheckUrlAsync(id);
+        await monitorService.CheckUrlAsync(id);
 
         return RedirectToPage();
     }
     
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
-        HttpMonitor? monitor = await _db.HttpMonitors.FindAsync(id);
+        HttpMonitor? monitor = await db.HttpMonitors.FindAsync(id);
 
         if (monitor != null)
         {
-            _db.HttpMonitors.Remove(monitor);
-            await _db.SaveChangesAsync();
+            db.HttpMonitors.Remove(monitor);
+            await db.SaveChangesAsync();
         }
 
         return RedirectToPage();
